@@ -2,8 +2,17 @@ import hashlib
 import random
 import time
 from flask import Flask
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from prometheus_client import Summary, make_wsgi_app
+
+import config
+
+request_summary = Summary('request_time_summary', 'Request-by-time summary', namespace=config.SERVICE_NAME)
 
 app = Flask(__name__)
+add_dispatched = DispatcherMiddleware(app, {
+    '/metrics': make_wsgi_app()
+})
 
 
 def encrypt_string(hash_string):
@@ -25,6 +34,7 @@ class timer:
         print(f"TOTAL TIME: {time.time() - self.start}")
 
 
+@request_summary.time()
 @app.route('/')
 def handle():
     res = "i am dumpty string"
