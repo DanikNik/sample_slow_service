@@ -1,23 +1,27 @@
 import hashlib
 import random
+import string
 import time
 from flask import Flask
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from prometheus_client import Summary, make_wsgi_app
 
-import config
-
-request_summary = Summary('request_time_summary', 'Request-by-time summary', namespace=config.SERVICE_NAME)
+request_summary = Summary('request_time_summary', 'Request-by-time summary')
 
 app = Flask(__name__)
-add_dispatched = DispatcherMiddleware(app, {
+app_dispatched = DispatcherMiddleware(app, {
     '/metrics': make_wsgi_app()
 })
 
 
+def random_string(string_length=10):
+    """Generate a random string of fixed length """
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(string_length))
+
+
 def encrypt_string(hash_string):
-    sha_signature = \
-        hashlib.sha256(hash_string.encode()).hexdigest()
+    sha_signature = hashlib.sha256(hash_string.encode()).hexdigest()
     return sha_signature
 
 
@@ -34,15 +38,11 @@ class timer:
         print(f"TOTAL TIME: {time.time() - self.start}")
 
 
-@request_summary.time()
 @app.route('/')
+@request_summary.time()
 def handle():
-    res = "i am dumpty string"
+    res = random_string(random.randint(10*3, 10*4))
     for i in range(get_random_cycle_count()):
         res = encrypt_string(res)
 
     return res
-
-
-if __name__ == '__main__':
-    app.run()
