@@ -7,7 +7,7 @@ from flask import Flask
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from prometheus_client import Counter, make_wsgi_app
 
-request_counter = Counter('request_time_summary', 'Request-by-time summary')
+request_counter = Counter('request_counter', 'Request counter')
 
 app = Flask(__name__)
 app_dispatched = DispatcherMiddleware(app, {
