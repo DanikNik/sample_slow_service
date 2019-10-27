@@ -8,5 +8,5 @@ RUN pip install -r requirements.txt
 COPY config.py ./config.py
 COPY main.py ./main.py
 
-ENTRYPOINT gunicorn main:app_dispatched --bind 0.0.0.0:8000 -w 4 --threads 100
+ENTRYPOINT gunicorn main:app_dispatched --bind 0.0.0.0:8000 --threads 100
 EXPOSE 8000
