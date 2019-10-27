@@ -5,9 +5,9 @@ import string
 import time
 from flask import Flask
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from prometheus_client import Summary, make_wsgi_app
+from prometheus_client import Counter, make_wsgi_app
 
-request_summary = Summary('request_time_summary', 'Request-by-time summary')
+request_counter = Counter('request_time_summary', 'Request-by-time summary')
 
 app = Flask(__name__)
 app_dispatched = DispatcherMiddleware(app, {
@@ -31,7 +31,7 @@ def get_random_cycle_count():
 
 
 @app.route('/')
-@request_summary.time()
+@request_counter.inc(1)
 def handle():
     # res = random_string(random.randint(10 * 3, 10 * 4))
     # for i in range(get_random_cycle_count()):
