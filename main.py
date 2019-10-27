@@ -1,4 +1,5 @@
 import hashlib
+import json
 import random
 import string
 import time
@@ -29,20 +30,14 @@ def get_random_cycle_count():
     return random.randint(7 * 10 ** 2, 10 ** 3)
 
 
-class timer:
-    def __enter__(self):
-        print("Started counting time...")
-        self.start = time.time()
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print(f"TOTAL TIME: {time.time() - self.start}")
-
-
 @app.route('/')
 @request_summary.time()
 def handle():
-    res = random_string(random.randint(10*3, 10*4))
-    for i in range(get_random_cycle_count()):
-        res = encrypt_string(res)
+    # res = random_string(random.randint(10 * 3, 10 * 4))
+    # for i in range(get_random_cycle_count()):
+    #     res = encrypt_string(res)
+    time.sleep(random.uniform(0.05, 0.7))
+
+    res = json.dumps({"list": [1, 2, 3, 4, 5, 6]})
 
     return res
