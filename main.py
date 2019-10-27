@@ -26,7 +26,7 @@ def encrypt_string(hash_string):
 
 
 def get_random_cycle_count():
-    return random.randint(7 * 10 ** 3, 10 ** 4)
+    return random.randint(7 * 10 ** 2, 10 ** 3)
 
 
 class timer:
