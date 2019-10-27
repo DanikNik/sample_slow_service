@@ -36,7 +36,7 @@ def handle():
     # res = random_string(random.randint(10 * 3, 10 * 4))
     # for i in range(get_random_cycle_count()):
     #     res = encrypt_string(res)
-    time.sleep(random.uniform(0.05, 0.7))
+    time.sleep(random.uniform(0.01, 0.5))
 
     res = json.dumps({"list": [1, 2, 3, 4, 5, 6]})
 
