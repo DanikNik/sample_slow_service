@@ -31,8 +31,8 @@ def get_random_cycle_count():
 
 
 @app.route('/')
-@request_counter.inc(1)
 def handle():
+    request_counter.inc(1)
     # res = random_string(random.randint(10 * 3, 10 * 4))
     # for i in range(get_random_cycle_count()):
     #     res = encrypt_string(res)
