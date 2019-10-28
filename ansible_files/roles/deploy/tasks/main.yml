@@ -1,21 +1,24 @@
-- name: stop-containers
-  shell: docker kill slow-service
-  register: stop_result
-
-- name: remove-containers
-  shell: docker rm slow-service
-  register: delete_result
-  when: stop_result.changed
-
 - name: pull
   git:
     repo: https://github.com/DanikNik/sample_slow_service
     dest: /home/ubuntu/sample_slow_service
     update: yes
     version: master
+  register: pull_result
   when: delete_result.changed
+
+- name: stop-containers
+  shell: docker kill slow-service
+  register: stop_result
+  when: pull_result.changed
+
+- name: remove-containers
+  shell: docker rm slow-service
+  register: delete_result
+  when: stop_result.changed
 
 - name: deploy-new-image
   shell: bash ./scripts/deploy.sh
   args:
     chdir: /home/ubuntu/sample_slow_service
+  when: delete_result.changed
