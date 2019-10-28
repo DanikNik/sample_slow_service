@@ -1,14 +1,24 @@
 - name: Stop existing instances
-  shell: docker kill slow_service; docker rm slow-service
+  shell: docker kill slow-service
+  register: stop_result
 
-- name: Pull "sample_slow_service"
+- name: Remove containers
+  shell: docker rm slow-service
+  register: delete_result
+  when: stop_result.changed
+
+- name: Pull sample_slow_service
   git:
-    repo: git@github.com:DanikNik/sample_slow_service.git
+    repo: https://github.com/DanikNik/sample_slow_service
     dest: /home/ubuntu/sample_slow_service
     update: yes
     version: master
+  register: pull_result
+  when: delete_result.changed
 
 - name: Build and run new Docker image
   shell: bash deploy.sh
   args:
-    cd: /home/ubuntu/sample_slow_service
+    chdir: /home/ubuntu/sample_slow_service
+  register: deploy_result
+  when: pull_result.changed

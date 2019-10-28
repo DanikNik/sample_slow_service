@@ -1,4 +1,5 @@
 - hosts: aws-backend
+  order: sorted
   remote_user: ubuntu
   become: yes
 
