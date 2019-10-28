@@ -1,0 +1,6 @@
+- hosts: aws-backend
+  remote_user: ubuntu
+  become: yes
+
+  roles:
+    - deploy

@@ -1,0 +1,5 @@
+[aws-backend:vars]
+ansible_ssh_private_key_file=~/highload-balancing.pem
+
+[aws-backend]
+aws_backend[1:4]
