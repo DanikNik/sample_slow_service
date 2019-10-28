@@ -19,4 +19,3 @@
   shell: bash ./scripts/deploy.sh
   args:
     chdir: /home/ubuntu/sample_slow_service
-#  register: deploy_result
