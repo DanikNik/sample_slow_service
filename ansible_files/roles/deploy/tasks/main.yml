@@ -16,7 +16,7 @@
   when: delete_result.changed
 
 - name: deploy-new-image
-  shell: bash deploy.sh
+  shell: bash ./scripts/deploy.sh
   args:
     chdir: /home/ubuntu/sample_slow_service
-  register: deploy_result
+#  register: deploy_result
