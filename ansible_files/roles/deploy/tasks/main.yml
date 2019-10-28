@@ -5,7 +5,6 @@
     update: yes
     version: master
   register: pull_result
-  when: delete_result.changed
 
 - name: stop-containers
   shell: docker kill slow-service
