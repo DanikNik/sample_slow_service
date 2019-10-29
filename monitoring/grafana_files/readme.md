@@ -1,0 +1,1 @@
+### You should mount this dir as /var/lib/grafana to prepopulate it with data
