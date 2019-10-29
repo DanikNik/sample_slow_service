@@ -23,7 +23,7 @@ def random_string(string_length=10):
 @app.route('/')
 @request_latency_histogram.time()
 def handle():
-    # time.sleep(random.uniform(0.01, 0.2))
+    time.sleep(random.uniform(0.01, 0.2))
 
     res = json.dumps({
         "random_string": random_string(random.randint(32, 256))
