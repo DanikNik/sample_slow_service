@@ -4,7 +4,7 @@ import string
 import time
 from flask import Flask
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from prometheus_client import Summary, make_wsgi_app, Histogram
+from prometheus_client import make_wsgi_app, Histogram
 
 request_latency_histogram = Histogram('request_latency_hist', "Request latency histogram")
 
