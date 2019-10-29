@@ -26,8 +26,7 @@ def handle():
     time.sleep(random.uniform(0.01, 0.2))
 
     res = json.dumps({
-        # "random_string": random_string(random.randint(32, 256))
-        "random_string": 100
+        "random_string": random_string(random.randint(32, 256))
     })
 
     return res
