@@ -9,7 +9,7 @@
   ignore_errors: True
 
 - name: install-docker
-  script: ../files/aws_populate.sh
+  script: ./roles/deploy/files/aws_populate.sh
   when: docker_check.failed
 
 - name: install-pip
