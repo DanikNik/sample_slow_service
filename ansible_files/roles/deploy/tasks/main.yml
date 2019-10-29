@@ -6,18 +6,23 @@
     version: master
   register: pull_result
 
+- name: service-info
+  docker_container_info:
+    name: slow-service
+  register: info_result
+
 - name: stop-containers
   shell: docker kill slow-service
   register: stop_result
-  when: pull_result.changed
+  when: pull_result.changed and info_result.exists
 
 - name: remove-containers
   shell: docker rm slow-service
   register: delete_result
-  when: stop_result.changed
+  when: stop_result.changed and info_result.exists
 
 - name: deploy-new-image
   shell: bash ./scripts/deploy.sh
   args:
     chdir: /home/ubuntu/sample_slow_service
-  when: delete_result.changed
+  when: delete_result.changed or pull_result.changed

@@ -1,0 +1,15 @@
+- hosts: aws_backend
+  order: sorted
+  remote_user: ubuntu
+  become: yes
+
+  tasks:
+  - name: intall-pip
+    apt:
+      name: python-pip
+      update_cache: yes
+    register: install_pip
+
+  - name: install-docker-py
+    shell: pip install docker
+#    when: install_pip.changed
