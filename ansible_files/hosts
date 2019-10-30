@@ -10,15 +10,15 @@ nginx
 
 [backend]
 ; here are backend servers IP's
-aws_backend1
-aws_backend2
-aws_backend3
-aws_backend4
+3.133.88.190
+3.15.41.37
+18.222.88.147
+18.191.185.191
 
 [monitoring]
 ; here are monitoring server IP
-aws_monitoring
+3.19.30.144
 
 [nginx]
 ; here is balancer server IP
-aws_nginx
+3.133.88.104

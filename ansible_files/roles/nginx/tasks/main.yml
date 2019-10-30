@@ -1,0 +1,46 @@
+- name: check-docker
+  shell: docker
+  register: docker_check
+  ignore_errors: True
+
+- name: install-docker
+  script: aws_populate.sh
+  when: docker_check.failed
+
+- name: check-pip
+  shell: pip3
+  register: pip_check
+  ignore_errors: True
+
+- name: install-pip
+  apt:
+    name: python3-pip
+  when: pip_check.failed
+
+- name: install-docker-py
+  pip:
+    name: docker
+
+- name: install-nginx
+  apt:
+    name: nginx-full
+    state: latest
+    update_cache: yes
+
+- name: copy-nginx-config
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    backup: yes
+
+- name: restart-nginx
+  systemd:
+    name: nginx
+    state: restarted
+    daemon_reload: yes
+
+- name: start-nginx-exporter
+  script: run_nginx_exporter.sh
+  args:
+    executable: /bin/bash
+

@@ -42,6 +42,11 @@
     executable: /bin/bash
   when: check_node_result.stat.exists == False
 
+- name: node-check-state
+  systemd:
+    state: started
+    name: node-exporter
+
 - name: pull
   git:
     repo: https://github.com/DanikNik/sample_slow_service
