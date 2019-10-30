@@ -1,5 +1,23 @@
-[aws_backend:vars]
-ansible_ssh_private_key_file=~/highload-balancing.pem
+[servers:vars]
+; change path to your private server key
+ansible_ssh_private_key_file = ~/highload-balancing.pem
 
-[aws_backend]
-aws_backend[1:4]
+[servers:children]
+backend
+monitoring
+nginx
+
+[backend]
+; here are backend servers IP's
+aws_backend1
+aws_backend2
+aws_backend3
+aws_backend4
+
+[monitoring]
+; here are monitoring server IP
+aws_monitoring
+
+[nginx]
+; here is balancer server IP
+aws_nginx

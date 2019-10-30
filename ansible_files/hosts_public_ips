@@ -1,0 +1,9 @@
+# you should modify your /etc/hosts in that way
+# WARNING: the symbol between IP and hostname is \t (TAB), not a bunch of spaces!!!
+
+52.14.30.205    aws_backend1
+13.59.178.87    aws_backend2
+18.222.254.177  aws_backend3
+3.19.73.116     aws_backend4
+3.16.40.162     aws_monitoring
+18.191.191.206  aws_nginx

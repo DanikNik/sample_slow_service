@@ -4,8 +4,7 @@ Description=node-exporter service
 [Service]
 Type=simple
 Restart=on-failure
-ExecStart=/home/ubuntu/node_exporter/node_exporter
-User=ubuntu
+ExecStart=/node_exporter/node_exporter
 
 [Install]
 WantedBy=multi-user.target

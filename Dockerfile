@@ -5,7 +5,6 @@ WORKDIR /app
 COPY requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 
-COPY config.py ./config.py
 COPY main.py ./main.py
 
 ENTRYPOINT gunicorn main:app_dispatched --bind 0.0.0.0:8000 --threads 100

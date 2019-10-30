@@ -3,14 +3,14 @@
   register: docker_check
   ignore_errors: True
 
+- name: install-docker
+  script: aws_populate.sh
+  when: docker_check.failed
+
 - name: check-pip
   shell: pip
   register: pip_check
   ignore_errors: True
-
-- name: install-docker
-  script: ./roles/deploy/files/aws_populate.sh
-  when: docker_check.failed
 
 - name: install-pip
   apt:
@@ -21,10 +21,31 @@
   pip:
     name: docker
 
+- name: check-node
+  stat:
+    path: /etc/systemd/system/node-exporter.service
+  register: check_node_result
+
+- name: put-node
+  copy:
+    src: node_exporter
+    dest: /
+  when: check_node_result.stat.exists == False
+
+- name: make-node-exec
+  shell: sudo chmod +x /node_exporter/node_exporter
+  when: check_node_result.stat.exists == False
+
+- name: install-node
+  script: aws_node_exporter_init.sh
+  args:
+    executable: /bin/bash
+  when: check_node_result.stat.exists == False
+
 - name: pull
   git:
     repo: https://github.com/DanikNik/sample_slow_service
-    dest: /home/ubuntu/sample_slow_service
+    dest: ~/sample_slow_service
     update: yes
     version: master
   register: pull_result
@@ -47,5 +68,5 @@
 - name: deploy-new-image
   shell: bash ./scripts/deploy.sh
   args:
-    chdir: /home/ubuntu/sample_slow_service
+    chdir: ~/sample_slow_service
   when: delete_result.changed or pull_result.changed
