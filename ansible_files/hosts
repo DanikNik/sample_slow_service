@@ -1,6 +1,7 @@
 [servers:vars]
 ; change path to your private server key
 ansible_ssh_private_key_file = ~/highload-balancing.pem
+ansible_python_interpreter=/usr/bin/python3
 
 [servers:children]
 backend

@@ -1,0 +1,24 @@
+- name: check-docker
+  shell: docker
+  register: docker_check
+  ignore_errors: True
+
+- name: install-docker
+  script: aws_populate.sh
+  when: docker_check.failed
+
+- name: check-pip
+  shell: pip
+  register: pip_check
+  ignore_errors: True
+
+- name: install-pip
+  apt:
+    name: python-pip
+  when: pip_check.failed
+
+- name: install-docker-py
+  pip:
+    name: docker
+
+- name: put-mon-package
