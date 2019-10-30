@@ -8,17 +8,67 @@
   when: docker_check.failed
 
 - name: check-pip
-  shell: pip
+  shell: pip3
   register: pip_check
   ignore_errors: True
 
 - name: install-pip
   apt:
-    name: python-pip
+    name: python3-pip
   when: pip_check.failed
 
 - name: install-docker-py
   pip:
     name: docker
 
-- name: put-mon-package
+- name: put-prom-package
+  copy:
+    src: prometheus
+    dest: ~/
+  register: put_prom_package
+
+- name: check-prom
+  docker_container_info:
+    name: aws_prom
+  register: check_prom_result
+
+- name: stop-prom
+  shell: docker kill aws_prom
+  register: prom_stop
+  when: check_prom_result.exists
+
+- name: remove-prom
+  shell: docker rm aws_prom
+  register: delete_prom
+  when: prom_stop.changed and check_prom_result.exists
+
+- name: put-graf-package
+  copy:
+    src: grafana
+    dest: ~/
+  register: put_graf_package
+
+- name: check-grafana
+  docker_container_info:
+    name: aws_graf
+  register: check_graf_result
+
+- name: stop-graf
+  shell: docker kill aws_graf
+  register: graf_stop
+  when: check_graf_result.exists
+
+- name: remove-graf
+  shell: docker rm aws_graf
+  register: delete_graf
+  when: graf_stop.changed and check_graf_result.exists
+
+- name: run-prometheus
+  shell: bash build_prom.sh
+  args:
+    chdir: ~/prometheus
+
+- name: run-grafana
+  shell: bash run_grafana.sh
+  args:
+    chdir: ~/grafana

@@ -8,7 +8,7 @@
   when: docker_check.failed
 
 - name: check-pip
-  shell: pip
+  shell: pip3
   register: pip_check
   ignore_errors: True
 
